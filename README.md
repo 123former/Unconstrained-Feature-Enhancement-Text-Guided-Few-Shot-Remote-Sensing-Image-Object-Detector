@@ -119,14 +119,16 @@ Please refer to the [installation guide](docs/en/install.md) for detailed instru
 
 ```bash
 # Train on the DIOR dataset
-python tools/detection/train.py configs/detection/ufedet/ufedet_dior_10shot.py
+python tools/detection/train.py configs/detection/final_exp/dior/split1/cls-meta-rcnn_r101_c4_8xb4_base-training_dior_split1.py
+
+python tools/detection/train.py configs/detection/final_exp/dior/split1/cls-meta-rcnn_r101_c4_8xb4_20shot-fine-tuning_dior_split1.py
 ```
 
 ### Testing
 
 ```bash
 # Test on the DIOR dataset
-python tools/detection/test.py configs/detection/ufedet/ufedet_dior_10shot.py checkpoints/latest.pth --eval bbox
+python tools/detection/test.py configs/detection/final_exp/dior/split1/cls-meta-rcnn_r101_c4_8xb4_20shot-fine-tuning_dior_split1.py checkpoints/latest.pth --eval bbox
 ```
 
 ## 📄 License
