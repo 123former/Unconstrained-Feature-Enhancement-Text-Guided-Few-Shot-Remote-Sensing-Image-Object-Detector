@@ -1,14 +1,6 @@
   <div align="center">
     <b><font size="6">UFEDet: Unconstrained Feature Enhancement Text-Guided Few-Shot Remote Sensing Image Object Detector</font></b>
   </div>
-<div align="center">
-
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/mmfewshot)](https://pypi.org/project/mmfewshot/)
-[![PyPI](https://img.shields.io/pypi/v/mmfewshot)](https://pypi.org/project/mmfewshot)
-[![docs](https://img.shields.io/badge/docs-latest-blue)](https://mmfewshot.readthedocs.io/en/latest/)
-[![license](https://img.shields.io/github/license/open-mmlab/mmfewshot.svg)](https://github.com/open-mmlab/mmfewshot/blob/master/LICENSE)
-
-</div>
 
 <div align="center">
   English 
