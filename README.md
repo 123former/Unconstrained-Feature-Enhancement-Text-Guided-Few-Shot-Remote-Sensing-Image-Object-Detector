@@ -44,7 +44,7 @@ Introduces the GAO to adjust the overall gradient $G_{new}$ to mitigate the impa
 
 ### 1. Text-Image Shared-Specific Module (SSM)
 
-This module partitions features into consistent and distinctive characteristics. It uses a relationship matrix to ensure common components are highly consistent (similarity near 1) and unique components remain distinct (similarity near 0).
+This module partitions features into consistent and distinctive characteristics. It uses a relationship matrix to ensure common components are highly consistent and unique components remain distinct.
 
 ### 2. Unconstrained Feature Enhancement Module (UFEM)
 
