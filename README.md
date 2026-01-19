@@ -14,7 +14,7 @@
 </div>
 
 <div align="center">
-  English | [简体中文](README_zh-CN.md)
+  English 
 </div>
 
 ## 📖 Overview
@@ -42,10 +42,6 @@ Modulates gradients based on the response of base classes to alleviate catastrop
 
 The UFEDet architecture consists of three main branches: **Query Branch**, **Support Branch**, and **Text Branch**.
 
-<div align="center">
-  <img src="docs/en/_static/image/detection_data_flow.jpg" width="800"/>
-</div>
-
 ### Forward Propagation
 Processes query images, support images, and text descriptions to generate generalizable feature prototypes $C$ and enhanced RoI features.
 
@@ -69,9 +65,6 @@ Unlike sample-guided strategies, UFEM proposes a classifier-guided enhancement s
 
 GAO acts as an observer during the subsequent training stage. It calculates a statistical gradient value $\tilde{G}_{b}$ for base classes. If this value is large, the GAO reduces the current network gradients to preserve base class performance.
 
-<div align="center">
-  <img src="docs/Visualization.png" width="800"/>
-</div>
 
 ## 📊 Experimental Results
 
@@ -91,6 +84,16 @@ Analysis conducted on a single NVIDIA 4090 GPU with $1333 \times 800 \times 3$ r
 | Inference Time | 0.056s | 0.063s |
 | Parameters | 60.73M | 69.23M |
 | GFLOPs | 1390.0 | 1460.0 |
+
+
+<div align="center">
+  <img src="docs/Visualization.png" width="800"/>
+</div>
+
+
+<div align="center">
+  <img src="docs/Visualization.png" width="800"/>
+</div>
 
 ## 📜 Citation
 
