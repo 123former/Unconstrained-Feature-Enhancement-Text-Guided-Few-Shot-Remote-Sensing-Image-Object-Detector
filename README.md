@@ -1,8 +1,5 @@
-<div align="center">
-  <img src="docs/en/_static/image/mmfewshot-logo.png" width="500"/>
-  <div>&nbsp;</div>
   <div align="center">
-    <b><font size="5">UFEDet: Unconstrained Feature Enhancement Text-Guided Few-Shot Remote Sensing Image Object Detector</font></b>
+    <b><font size="6">UFEDet: Unconstrained Feature Enhancement Text-Guided Few-Shot Remote Sensing Image Object Detector</font></b>
   </div>
   <div>&nbsp;</div>
 
