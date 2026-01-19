@@ -68,12 +68,10 @@ GAO acts as an observer during the subsequent training stage. It calculates a st
 
 ## 📊 Experimental Results
 
-### Performance on DIOR Dataset (Split 1)
-
-| Method | 10-shot Novel mAP | 20-shot Novel mAP | 10-shot All mAP | 20-shot All mAP |
-|--------|-------------------|-------------------|-----------------|-----------------|
-| Meta R-CNN (Baseline) | 17.28 | 18.20 | 53.30 | 53.88 |
-| UFEDet (Ours) | 38.53 | 41.89 | 62.5 | 64.0 |
+### Performance on DIOR Dataset
+<div align="center">
+  <img src="docs/table_dior.png" width="800"/>
+</div>
 
 ### Computational Cost
 
@@ -90,11 +88,9 @@ Analysis conducted on a single NVIDIA 4090 GPU with $1333 \times 800 \times 3$ r
   <img src="docs/Visualization.png" width="800"/>
 </div>
 
-
 <div align="center">
-  <img src="docs/Visualization.png" width="800"/>
+  <img src="docs/chimney_total.png" width="800"/>
 </div>
-
 ## 📜 Citation
 
 If you find this work helpful for your research, please cite our paper:
