@@ -1,179 +1,142 @@
 <div align="center">
-  <img src="resources/mmfewshot-logo.png" width="500"/>
+  <img src="docs/en/_static/image/mmfewshot-logo.png" width="500"/>
   <div>&nbsp;</div>
   <div align="center">
-    <b><font size="5">OpenMMLab website</font></b>
-    <sup>
-      <a href="https://openmmlab.com">
-        <i><font size="4">HOT</font></i>
-      </a>
-    </sup>
-    &nbsp;&nbsp;&nbsp;&nbsp;
-    <b><font size="5">OpenMMLab platform</font></b>
-    <sup>
-      <a href="https://platform.openmmlab.com">
-        <i><font size="4">TRY IT OUT</font></i>
-      </a>
-    </sup>
+    <b><font size="5">UFEDet: Unconstrained Feature Enhancement Text-Guided Few-Shot Remote Sensing Image Object Detector</font></b>
   </div>
   <div>&nbsp;</div>
 
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/mmfewshot)](https://pypi.org/project/mmfewshot/)
 [![PyPI](https://img.shields.io/pypi/v/mmfewshot)](https://pypi.org/project/mmfewshot)
 [![docs](https://img.shields.io/badge/docs-latest-blue)](https://mmfewshot.readthedocs.io/en/latest/)
-[![badge](https://github.com/open-mmlab/mmfewshot/workflows/build/badge.svg)](https://github.com/open-mmlab/mmfewshot/actions)
-[![codecov](https://codecov.io/gh/open-mmlab/mmfewshot/branch/master/graph/badge.svg)](https://codecov.io/gh/open-mmlab/mmfewshot)
 [![license](https://img.shields.io/github/license/open-mmlab/mmfewshot.svg)](https://github.com/open-mmlab/mmfewshot/blob/master/LICENSE)
-
-[📘Documentation](https://mmfewshot.readthedocs.io/) |
-[🛠️Installation](https://mmfewshot.readthedocs.io/en/latest/install.html) |
-[👀Model Zoo](https://mmfewshot.readthedocs.io/en/latest/model_zoo.html) |
-[🆕Update News](https://mmfewshot.readthedocs.io/en/latest/changelog.html) |
-[🤔Reporting Issues](https://github.com/open-mmlab/mmfewshot/issues/new/choose)
 
 </div>
 
 <div align="center">
-
-English | [简体中文](README_zh-CN.md)
-
+  English | [简体中文](README_zh-CN.md)
 </div>
 
-## Introduction
+## 📖 Overview
 
-mmfewshot is an open source few shot learning toolbox based on PyTorch. It is a part of the [OpenMMLab](https://open-mmlab.github.io/) project.
+Few-shot object detection (FSOD) in remote sensing images (RSIs) is a significant and challenging task due to the limited number of training samples. The primary bottleneck in current methodologies lies in imprecise classification, which stems from the inability to capture unique visual features of novel classes and the catastrophic forgetting of base classes.
 
-The master branch works with **PyTorch 1.5+**.
-The compatibility to earlier versions of PyTorch is not fully tested.
+UFEDet addresses these issues through three key perspectives: the features to be classified (RoI features), reference features (feature prototypes), and the classifiers themselves.
 
-<div align="left">
-  <img src="resources/demo.png"/>
+<div align="center">
+  <img src="docs/overview.jpg" width="800"/>
 </div>
 
-### Major features
+## Core Contributions
 
-- **Support multiple tasks in Few Shot Learning**
+### Text-Image Shared-Specific Module (SSM)
+Enhances the distinctiveness of class feature prototypes by emphasizing both consistent representations across modalities and unique information within each modality.
 
-  MMFewShot provides unified implementation and evaluation of few shot classification and detection.
+### Unconstrained Feature Enhancement Module (UFEM)
+Leverages global class information from prototypes to enhance RoI features while increasing the distributional differences between classifiers.
 
-- **Modular Design**
+### Gradient-Controlled Anti-Forgetting Optimizer (GAO)
+Modulates gradients based on the response of base classes to alleviate catastrophic forgetting during novel class training.
 
-  We decompose the few shot learning framework into different components,
-  which makes it much easy and flexible to build a new model by combining different modules.
+## 🏗️ Framework Architecture
 
-- **Strong baseline and State of the art**
+The UFEDet architecture consists of three main branches: **Query Branch**, **Support Branch**, and **Text Branch**.
 
-  The toolbox provides strong baselines and state-of-the-art methods in few shot classification and detection.
+<div align="center">
+  <img src="docs/en/_static/image/detection_data_flow.jpg" width="800"/>
+</div>
 
-## What's New
+### Forward Propagation
+Processes query images, support images, and text descriptions to generate generalizable feature prototypes $C$ and enhanced RoI features.
 
-v0.1.0 was released in 24/11/2021.
-Please refer to [changelog.md](docs/en/changelog.md) for details and release history.
+### Loss Calculation
+Includes standard detection losses ($L_{rpn}, L_{cls}, L_{reg}$) alongside a specialized shared-specific loss $L_{SS}$.
 
-## Installation & Dataset Preparation
+### Backward Propagation
+Introduces the GAO to adjust the overall gradient $G_{new}$ to mitigate the impact of catastrophic forgetting.
 
-MMFewShot depends on [PyTorch](https://pytorch.org/) and [MMCV](https://github.com/open-mmlab/mmcv).
-Please refer to [install.md](/docs/en/install.md) for installation of MMFewShot and [data preparation](tools/data/README.md) for dataset preparation.
+## 🛠️ Key Components
 
-## Getting Started
+### 1. Text-Image Shared-Specific Module (SSM)
 
-If you are new of few shot learning, you can start with [learn the basics](docs/en/intro.md).
-If you are familiar with it, check out [getting_started.md](docs/en/get_started.md) for the basic usage of mmfewshot.
+This module partitions features into consistent and distinctive characteristics. It uses a relationship matrix to ensure common components are highly consistent (similarity near 1) and unique components remain distinct (similarity near 0).
 
-Refer to the below tutorials to dive deeper:
+### 2. Unconstrained Feature Enhancement Module (UFEM)
 
-- Few Shot Classification
+Unlike sample-guided strategies, UFEM proposes a classifier-guided enhancement strategy. It reduces the impact of sample imbalance on classifier distributions and maintains the diversity of classifier parameters, enhancing robustness in complex scenarios.
 
-  - [Overview](docs/en/classification/overview.md)
-  - [Config](docs/en/classification/customize_config.md)
-  - [Customize Dataset](docs/en/classification/customize_dataset.md)
-  - [Customize Model](docs/en/classification/customize_models.md)
-  - [Customize Runtime](docs/en/classification/customize_runtime.md)
+### 3. Gradient-Controlled Anti-Forgetting Optimizer (GAO)
 
-- Few Shot Detection
+GAO acts as an observer during the subsequent training stage. It calculates a statistical gradient value $\tilde{G}_{b}$ for base classes. If this value is large, the GAO reduces the current network gradients to preserve base class performance.
 
-  - [Overview](docs/en/detection/overview.md)
-  - [Config](docs/en/detection/customize_config.md)
-  - [Customize Dataset](docs/en/detection/customize_dataset.md)
-  - [Customize Model](docs/en/detection/customize_models.md)
-  - [Customize Runtime](docs/en/detection/customize_runtime.md)
+<div align="center">
+  <img src="docs/Visualization.png" width="800"/>
+</div>
 
-## Benchmark and model zoo
+## 📊 Experimental Results
 
-Results and models are available in the [model zoo](docs/en/model_zoo.md).
-Supported algorithms:
+### Performance on DIOR Dataset (Split 1)
 
-<details open>
-<summary>Classification</summary>
+| Method | 10-shot Novel mAP | 20-shot Novel mAP | 10-shot All mAP | 20-shot All mAP |
+|--------|-------------------|-------------------|-----------------|-----------------|
+| Meta R-CNN (Baseline) | 17.28 | 18.20 | 53.30 | 53.88 |
+| UFEDet (Ours) | 38.53 | 41.89 | 62.5 | 64.0 |
 
-- [x] [Baseline](configs/classification/baseline/README.md) (ICLR'2019)
-- [x] [Baseline++](configs/classification/baseline_plus/README.md) (ICLR'2019)
-- [x] [NegMargin](configs/classification/neg_margin/README.md) (ECCV'2020)
-- [x] [MatchingNet](configs/classification/matching_net/README.md) (NeurIPS'2016)
-- [x] [ProtoNet](configs/classification/proto_net/README.md) (NeurIPS'2017)
-- [x] [RelationNet](configs/classification/relation_net/README.md) (CVPR'2018)
-- [x] [MetaBaseline](configs/classification/meta_baseline/README.md) (ICCV'2021)
-- [x] [MAML](configs/classification/maml/README.md) (ICML'2017)
+### Computational Cost
 
-</details>
+Analysis conducted on a single NVIDIA 4090 GPU with $1333 \times 800 \times 3$ resolution:
 
-<details open>
-<summary>Detection</summary>
+| Metric | Meta R-CNN | UFEDet (Ours) |
+|--------|------------|---------------|
+| Inference Time | 0.056s | 0.063s |
+| Parameters | 60.73M | 69.23M |
+| GFLOPs | 1390.0 | 1460.0 |
 
-- [x] [TFA](configs/detection/tfa/README.md) (ICML'2020)
-- [x] [FSCE](configs/detection/fsce/README.md) (CVPR'2021)
-- [x] [AttentionRPN](configs/detection/attention_rpn/README.md) (CVPR'2020)
-- [x] [MetaRCNN](configs/detection/meta_rcnn/README.md) (ICCV'2019)
-- [x] [FSDetView](configs/detection/fsdetview/README.md) (ECCV'2020)
-- [x] [MPSR](configs/detection/mpsr/README.md) (ECCV'2020)
+## 📜 Citation
 
-</details>
-
-## Contributing
-
-We appreciate all contributions to improve mmfewshot. Please refer to [CONTRIBUTING.md](https://github.com/open-mmlab/mmfewshot/blob/main/.github/CONTRIBUTING.md) in MMFewShot for the contributing guideline.
-
-## Acknowledgement
-
-mmfewshot is an open source project that is contributed by researchers and engineers from various colleges and companies. We appreciate all the contributors who implement their methods or add new features, as well as users who give valuable feedbacks. We wish that the toolbox and benchmark could serve the growing research community by providing a flexible toolkit to reimplement existing methods and develop their own new methods.
-
-## Citation
-
-If you find this project useful in your research, please consider cite:
+If you find this work helpful for your research, please cite our paper:
 
 ```bibtex
-@misc{mmfewshot2021,
-    title={OpenMMLab Few Shot Learning Toolbox and Benchmark},
-    author={mmfewshot Contributors},
-    howpublished = {\url{https://github.com/open-mmlab/mmfewshot}},
-    year={2021}
+@article{shang2026unconstrained,
+  title={Unconstrained Feature Enhancement Text-Guided Few-Shot Remote Sensing Image Object Detector},
+  author={Shang, Xiping and Zhao, Wei and Chen, Haoxiang and Fan, Xudong and Li, Nannan and Li, Dongjin and Lv, Jianwei and Zhang, Rufei},
+  journal={IEEE Transactions on Geoscience and Remote Sensing},
+  volume={64},
+  pages={1--16},
+  year={2026},
+  publisher={IEEE},
+  doi={10.1109/TGRS.2025.3645347}
 }
 ```
 
-## License
+## 🚀 Installation
+
+Please refer to the [installation guide](docs/en/install.md) for detailed instructions on setting up the environment.
+
+## 📚 Usage
+
+### Training
+
+```bash
+# Train on the DIOR dataset
+python tools/detection/train.py configs/detection/ufedet/ufedet_dior_10shot.py
+```
+
+### Testing
+
+```bash
+# Test on the DIOR dataset
+python tools/detection/test.py configs/detection/ufedet/ufedet_dior_10shot.py checkpoints/latest.pth --eval bbox
+```
+
+## 📄 License
 
 This project is released under the [Apache 2.0 license](LICENSE).
 
-## Projects in OpenMMLab
+## Keywords
 
-- [MMCV](https://github.com/open-mmlab/mmcv): OpenMMLab foundational library for computer vision.
-- [MIM](https://github.com/open-mmlab/mim): MIM installs OpenMMLab packages.
-- [MMClassification](https://github.com/open-mmlab/mmclassification): OpenMMLab image classification toolbox and benchmark.
-- [MMDetection](https://github.com/open-mmlab/mmdetection): OpenMMLab detection toolbox and benchmark.
-- [MMDetection3D](https://github.com/open-mmlab/mmdetection3d): OpenMMLab's next-generation platform for general 3D object detection.
-- [MMRotate](https://github.com/open-mmlab/mmrotate): OpenMMLab rotated object detection toolbox and benchmark.
-- [MMSegmentation](https://github.com/open-mmlab/mmsegmentation): OpenMMLab semantic segmentation toolbox and benchmark.
-- [MMOCR](https://github.com/open-mmlab/mmocr): OpenMMLab text detection, recognition and understanding toolbox.
-- [MMPose](https://github.com/open-mmlab/mmpose): OpenMMLab pose estimation toolbox and benchmark.
-- [MMHuman3D](https://github.com/open-mmlab/mmhuman3d): OpenMMLab 3D human parametric model toolbox and benchmark.
-- [MMSelfSup](https://github.com/open-mmlab/mmselfsup): OpenMMLab self-supervised learning Toolbox and Benchmark.
-- [MMRazor](https://github.com/open-mmlab/mmrazor): OpenMMLab Model Compression Toolbox and Benchmark.
-- [MMFewShot](https://github.com/open-mmlab/mmfewshot): OpenMMLab FewShot Learning Toolbox and Benchmark.
-- [MMAction2](https://github.com/open-mmlab/mmaction2): OpenMMLab's next-generation action understanding toolbox and benchmark.
-- [MMTracking](https://github.com/open-mmlab/mmtracking): OpenMMLab video perception toolbox and benchmark.
-- [MMFlow](https://github.com/open-mmlab/mmflow): OpenMMLab optical flow toolbox and benchmark.
-- [MMEditing](https://github.com/open-mmlab/mmediting): OpenMMLab image and video editing toolbox.
-- [MMGeneration](https://github.com/open-mmlab/mmgeneration):  OpenMMLab Generative Model toolbox and benchmark.
-- [MMDeploy](https://github.com/open-mmlab/mmdeploy): OpenMMlab deep learning model deployment toolset.
-# Unconstrained-Feature-Enhancement-Text-Guided-Few-Shot-Remote-Sensing-Image-Object-Detector
-# Unconstrained-Feature-Enhancement-Text-Guided-Few-Shot-Remote-Sensing-Image-Object-Detector
+Feature extraction; Object detection; Prototypes; Training; Remote sensing; Detectors; Proposals; Interference; Training data; Metalearning; Few-shot learning; object detection; remote sensing images (RSIs); text-modal knowledge
+
+## Acknowledgments
+
+This project is built upon the [OpenMMLab FewShot Learning Toolbox](https://github.com/open-mmlab/mmfewshot). We appreciate all the contributors to this ecosystem.
